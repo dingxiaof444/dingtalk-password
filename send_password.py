@@ -5,6 +5,7 @@ SECRET = os.environ["DINGTALK_SECRET"]
 
 def get_today_password():
     today_str = datetime.date.today().strftime("%Y-%m-%d")
+    print(f"正在查找的日期：{today_str}")
     try:
         # 尝试用 GBK 编码打开（Windows 中文默认编码）
         with open("1_厂商密码表out.txt", "r", encoding="gbk") as f:
