@@ -6,8 +6,8 @@ SECRET = os.environ["DINGTALK_SECRET"]
 def get_today_password():
     today_str = datetime.date.today().strftime("%Y-%m-%d")
     print(f"正在查找的日期：{today_str}")
+
     try:
-        # 尝试用 GBK 编码打开（Windows 中文默认编码）
         with open("1_厂商密码表out.txt", "r", encoding="gbk") as f:
             lines = f.readlines()
         print(f"文件共 {len(lines)} 行")
@@ -16,14 +16,16 @@ def get_today_password():
         return None
 
     for line in lines:
-        if line.startswith(today_str):
-            parts = line.strip().split("\t")
+        parts = line.strip().split("\t")
+        # 至少要有年、月、年月、日期、密码这5列
+        if len(parts) < 5:
+            continue
+
+        # 第4列（索引3）是日期列，检查它是否等于今天
+        if parts[3].strip() == today_str:
             print(f"找到匹配行，共 {len(parts)} 列")
-            if len(parts) >= 5:
-                return parts[4].strip()
-            else:
-                print(f"错误：该行列数不足，实际有 {len(parts)} 列")
-                return None
+            return parts[4].strip()
+
     print("未找到今日日期对应的行")
     return None
 
