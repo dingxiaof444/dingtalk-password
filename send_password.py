@@ -1,5 +1,9 @@
 import os, datetime, time, hmac, hashlib, base64, urllib.parse, requests
 
+# 强制使用北京时间
+os.environ['TZ'] = 'Asia/Shanghai'
+time.tzset()
+
 WEBHOOK = os.environ["DINGTALK_WEBHOOK"]
 SECRET = os.environ["DINGTALK_SECRET"]
 
